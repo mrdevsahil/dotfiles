@@ -4,8 +4,8 @@ local api = vim.api.nvim_set_keymap
 local opt = { noremap = true, silent = true }
 
 --copy paste--
-api("v", "<S-y>", '"+y', { noremap = true })
-api("n", "<S-p>", '"+p', { noremap = true })
+api("v", "<Y>", '"+y', { noremap = true })
+api("n", "<P>", '"+p', { noremap = true })
 
 --open-explorer
 api("n", "<Leader>pv", ":Oil<CR>", opt)
@@ -55,7 +55,6 @@ set("v", ">", ">gv")
 set("n", "U", "<C-r>", { noremap = true })
 set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>")
 
-
 --format
 set("n", "<leader>fj", vim.lsp.buf.format)
 
@@ -86,9 +85,10 @@ set("n", "sr", ":vsplit <CR>")
 set("n", "sd", ":split <cr>")
 set("n", "sn", ":tabnew <cr>")
 
---resize in split--
+-- resize in split--
 api("n", "<Left>", ":vertical resize -2<CR>", opt)
 api("n", "<Right>", ":vertical resize +2<CR>", opt)
+
 -- Normal mode navigation
 api("n", "<Esc>", "<cmd>noh<CR>", opt)
 api("n", "sh", "<C-w>h", opt)
@@ -102,7 +102,7 @@ api("n", "fj", ":w<CR>", { silent = false })
 api("n", "<leader>q", ":q!<CR>", { silent = true })
 api("n", "<leader>wq", ":wq<CR>", { silent = true })
 
-api("n", "<Leader>/", ":<C-u>normal gcc<CR>", opt)
+-- api("n", "<Leader>/", ":<C-u>normal gcc<CR>", opt)
 api("x", "<Leader>/", ":normal gcc<CR>", opt)
 set("n", "n", "nzzzv")
 set("n", "N", "Nzzzv")
@@ -118,19 +118,29 @@ set("n", "<C-]>", "<cmd>cprev<CR>zz")
 -- set("n", "<leader>k", "<cmd>lnext<CR>zz")
 -- set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
+-- copy to system clipboard
 vim.g.clipboard = {
-    name = 'wl-clipboard',
-    copy = {
-        ['+'] = 'wl-copy',
-        ['*'] = 'wl-copy',
-    },
-    paste = {
-        ['+'] = 'wl-paste',
-        ['*'] = 'wl-paste',
-    },
-    cache_enabled = 1,
+	name = "xclip",
+	copy = {
+		["+"] = "xclip -selection clipboard",
+		["*"] = "xclip -selection primary",
+	},
+	paste = {
+		["+"] = "xclip -selection clipboard -o",
+		["*"] = "xclip -selection primary -o",
+	},
+	cache_enabled = 1,
 }
---replase with workd
+
+-- replase with workd
 set("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+-- compile and run current buffer cpp code in the terminal
+vim.api.nvim_set_keymap(
+	"n",
+	"C-gcc",
+	":w<CR>:term g++ -std=c++20 % -o %:r && ./%:r<CR>",
+	{ noremap = true, silent = true }
+)
 
 -- set("n", "<leader>ee", "oif err != nil {<CR>}<Esc>Oreturn err<Esc>")

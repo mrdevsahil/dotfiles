@@ -6,10 +6,6 @@ return {
 
 	dependencies = {
 		{ "nvim-treesitter/nvim-treesitter-textobjects" },
-		{
-			"nvim-treesitter/nvim-treesitter-context", -- Show code context
-			opts = { enable = true, mode = "topline", line_numbers = true, multiline_threshold = 5 },
-		},
 	},
 
 	config = function()

@@ -2,7 +2,7 @@ local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 local M = {
 	{
-           "NvChad/nvterm",
+		"NvChad/nvterm",
 		config = function()
 			require("nvterm").setup()
 

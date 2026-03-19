@@ -1,0 +1,10 @@
+#!/bin/bash
+
+chosen=$(printf " Shutdown\n Reboot\n Logout\n Suspend" | rofi -dmenu -i -p "Power Menu")
+
+case "$chosen" in
+    " Shutdown") systemctl poweroff ;;
+    " Reboot") systemctl reboot ;;
+    " Logout") i3-msg exit ;;
+    " Suspend") systemctl suspend ;;
+esac

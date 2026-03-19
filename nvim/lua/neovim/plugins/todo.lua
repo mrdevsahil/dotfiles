@@ -22,10 +22,9 @@ function M.config()
 end
 return M
 
--- TODO: lets do this later
--- FIX: need to be fixc
+-- TODO: lets do this okey
+-- FIX: need to be fixed
 -- HACK: weried code warning
 -- PERF: fully optiomized
 -- NOTE: this is a node
 -- WARNING: this is a warning
--- TODO: lets do thisokey

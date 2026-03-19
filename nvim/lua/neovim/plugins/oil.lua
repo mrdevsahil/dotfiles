@@ -20,7 +20,7 @@ return {
 					["<C-\\>"] = "actions.select_vsplit",
 					["<C-enter>"] = "actions.select_split", -- this is used to navigate left
 					["<C-t>"] = "actions.select_tab",
-					["<C-p>"] = "actions.preview",
+					-- ["<C-p>"] = "actions.preview",
 					["<C-c>"] = "actions.close",
 					["<C-r>"] = "actions.refresh",
 					["-"] = "actions.parent",
@@ -51,3 +51,4 @@ return {
 		end,
 	},
 }
+

@@ -20,6 +20,13 @@ return {
 		local on_attach = function(client, bufnr)
 			opts.buffer = bufnr
 
+			-- Ignore tsserver for .tsx files
+			-- local filetype = vim.bo.filetype
+			-- if filetype == "typescriptreact" then
+			-- 	client.stop()
+			-- 	return
+			-- end
+
 			-- set keybinds
 			opts.desc = "Show LSP references"
 			keymap.set("n", "gR", vim.lsp.buf.references, opts) -- show definition, references
@@ -30,9 +37,6 @@ return {
 			opts.desc = "Show LSP definitions"
 			keymap.set("n", "gd", vim.lsp.buf.definition, opts) -- show lsp definitions
 
-			opts.desc = "Show LSP implementations"
-			keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
-
 			opts.desc = "Show LSP type definitions"
 			keymap.set("n", "gt", vim.lsp.bug.type_definition, opts) -- show lsp type definitions
 
@@ -42,21 +46,24 @@ return {
 			opts.desc = "Smart rename"
 			keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
 
+			-- Telescope
+			opts.desc = "Show LSP implementations"
+			keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
 			opts.desc = "Show buffer diagnostics"
 			keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
-
-			opts.desc = "Show line diagnostics"
-			keymap.set("n", "<leader>g", vim.diagnostic.open_float, opts) -- show diagnostics for line
-
-			opts.desc = "Go to previous diagnostic"
-			keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
-
-			opts.desc = "Go to next diagnostic"
-			keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+			keymap.set("n", "gr", require("telescope.builtin").lsp_references)
 
 			opts.desc = "Show documentation for what is under cursor"
-			keymap.set("n", "N", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
-			keymap.set("n", "gr", require("telescope.builtin").lsp_references)
+			keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+
+			-- Code diagnostic
+			opts.desc = "Show line diagnostics"
+			keymap.set("n", "<leader>g", vim.diagnostic.open_float, opts) -- show diagnostics for line
+			opts.desc = "Go to previous diagnostic"
+			keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
+			opts.desc = "Go to next diagnostic"
+			keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+			keymap.set("n", "<leader>dl", vim.diagnostic.setqflist)
 		end
 
 		-- used to enable autocompletion (assign to every lsp server config)
@@ -76,9 +83,16 @@ return {
 			filetypes = { "py", "html" },
 		})
 
+		-- configure javascript server with plugin
+		-- lspconfig["jsserver"].setup({
+		-- 	capabilities = capabilities,
+		-- 	on_attach = on_attach,
+		-- })
+
 		-- configure typescript server with plugin
-		lspconfig["tsserver"].setup({
+		lspconfig["ts_ls"].setup({
 			capabilities = capabilities,
+			filetypes = { "javascript" },
 			on_attach = on_attach,
 		})
 
@@ -87,11 +101,12 @@ return {
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
-		lspconfig["pylsp"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			filetypes = { "py" },
-		})
+
+		-- lspconfig["pylsp"].setup({
+		-- 	capabilities = capabilities,
+		-- 	on_attach = on_attach,
+		-- 	filetypes = { "py" },
+		-- })
 
 		-- lspconfig["gleam"].setup({
 		-- 	capabilities = capabilities,
@@ -105,22 +120,23 @@ return {
 		})
 
 		--autocompletion configuration for golang
-		lspconfig["gopls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			cmd = { "gopls" },
-			filetypes = { "go", "gomod", "gowork", "gotmpl" },
-			root_dir = utils.root_pattern("go.work", "go.mod", ".git"),
-			settings = {
-				gopls = {
-					completeUnimported = true,
-					usePlaceholders = true,
-					analyses = {
-						unusedparams = true,
-					},
-				},
-			},
-		})
+		-- lspconfig["gopls"].setup({
+		-- 	capabilities = capabilities,
+		-- 	on_attach = on_attach,
+		-- 	cmd = { "gopls" },
+		-- 	filetypes = { "go", "gomod", "gowork", "gotmpl" },
+		-- 	root_dir = utils.root_pattern("go.work", "go.mod", ".git"),
+		-- 	settings = {
+		-- 		gopls = {
+		-- 			completeUnimported = true,
+		-- 			usePlaceholders = true,
+		-- 			analyses = {
+		-- 				unusedparams = true,
+		-- 			},
+		-- 		},
+		-- 	},
+		-- })
+
 		-- configure emmet language server
 		lspconfig["emmet_ls"].setup({
 			capabilities = capabilities,
@@ -148,6 +164,35 @@ return {
 			-- 		},
 			-- 	},
 			-- },
+		})
+
+		-- configure clangd server for C++ development
+		lspconfig["clangd"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+			filetypes = { "c", "cpp", "objc", "objcpp" },
+			root_dir = utils.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
+		})
+
+		-- configure dart language server for Dart and Flutter
+		lspconfig["dartls"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+			filetypes = { "dart" },
+			init_options = {
+				closingLabels = true,
+				flutterOutline = true,
+				onlyAnalyzeProjectsWithOpenFiles = true,
+				outline = true,
+				suggestFromUnimportedLibraries = true,
+			},
+			root_dir = utils.root_pattern("pubspec.yaml"),
+			settings = {
+				dart = {
+					completeFunctionCalls = true,
+					showTodos = true,
+				},
+			},
 		})
 	end,
 }

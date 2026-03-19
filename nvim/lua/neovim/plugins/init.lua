@@ -3,14 +3,54 @@ return {
 	{ "tweekmonster/django-plus.vim" },
 	{ "folke/neodev.nvim" },
 	{ "tpope/vim-fugitive" },
+	{ "sphamba/smear-cursor.nvim", opts = {} },
 	{
 		"terryma/vim-multiple-cursors",
 		-- "mg979/vim-visual-multi",
 	},
 	-- { "RRethy/vim-illuminate" },
-    {"dominikduda/vim_current_word"},
+	-- { "dominikduda/vim_current_word" },
+	--Code fold
+	-- vim registers
+	{
+		"tversteeg/registers.nvim",
+		cmd = "Registers",
+		config = true,
+		keys = {
+			{ '"', mode = { "n", "v" } },
+			{ "<C-R>", mode = "i" },
+		},
+		name = "registers",
+	},
 
-    {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons'},
+	--- see keys
+	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		opts = {
+			-- your configuration comes here
+			-- or leave it empty to use the default settings
+			-- refer to the configuration section below
+		},
+		keys = {
+			{
+				"<leader>?",
+				function()
+					require("which-key").show({ global = false })
+				end,
+				desc = "Buffer Local Keymaps (which-key)",
+			},
+		},
+	},
+
+	{ "akinsho/bufferline.nvim", version = "*", dependencies = "nvim-tree/nvim-web-devicons" },
+
+	-- tsserver-helper
+	{
+		"pmizio/typescript-tools.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		opts = {},
+	},
 
 	-- for auto tags
 	{
@@ -44,14 +84,31 @@ return {
 		"karb94/neoscroll.nvim",
 		config = function()
 			local neoscroll = require("neoscroll")
-			local config = require("neoscroll.config")
 
-			-- Define the custom mappings
-			local mappings = {}
-			mappings["<S-c>"] = { "scroll", { "-vim.wo.scroll", "true", "350", "sine", [['cursorline']] } }
-			mappings["<S-m>"] = { "scroll", { "vim.wo.scroll", "true", "350", "sine", [['cursorline']] } }
-			config.set_mappings(mappings)
-			neoscroll.setup({})
+			neoscroll.setup({
+				-- easing = "sine",
+				-- hide_cursor = true,
+				-- stop_eof = true,
+				-- respect_scrolloff = false,
+				-- cursor_scrolls_alone = true,
+				-- performance_mode = false,
+			})
+
+			-- Define custom key mappings
+			local keymap = {
+				["<S-n>"] = function()
+					neoscroll.scroll(-vim.wo.scroll, { move_cursor = true, duration = 350, easing = "sine" })
+				end,
+				["<S-m>"] = function()
+					neoscroll.scroll(vim.wo.scroll, { move_cursor = true, duration = 350, easing = "sine" })
+				end,
+			}
+
+			-- Apply the key mappings to normal, visual, and select modes
+			local modes = { "n", "v", "s" }
+			for key, func in pairs(keymap) do
+				vim.keymap.set(modes, key, func, { silent = true })
+			end
 		end,
 	},
 
@@ -80,7 +137,7 @@ return {
 		config = function()
 			require("noice").setup({
 				presets = {
-					bottom_search = true, -- use a classic bottom cmdline for search
+					bottom_search = false, -- use a classic bottom cmdline for search
 					command_palette = false, --set true to top
 					long_message_to_split = false, -- long messages will be sent to a split
 					inc_rename = false, -- enables an input dialog for inc-rename.nvim
@@ -91,11 +148,32 @@ return {
 						enabled = false, --disable  lsp message when first load
 					},
 				},
+				messages = {
+					enabled = false,
+				},
 			})
 		end,
 		dependencies = {
 			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
 		},
+	},
+	{
+		"ya2s/nvim-cursorline",
+		config = function()
+			require("nvim-cursorline").setup({
+				cursorline = {
+					enable = true,
+					timeout = 1000,
+					number = false,
+				},
+				cursorword = {
+					enable = true,
+					min_length = 3,
+					hl = { underline = true },
+				},
+			})
+		end,
 	},
 
 	--for hiding env data
@@ -140,54 +218,54 @@ return {
 	},
 
 	-- mini status line
-	{
-		"utilyre/barbecue.nvim",
-		name = "barbecue",
-		version = "*",
-		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
-		dependencies = {
-			"SmiteshP/nvim-navic",
-			"nvim-tree/nvim-web-devicons",
-		},
-		opts = {
-			kinds = {
-				Array = "",
-				Boolean = "",
-				Class = "",
-				Color = "",
-				Constant = "",
-				Constructor = "",
-				Enum = "",
-				EnumMember = "",
-				Event = "",
-				Field = "",
-				File = "󰈙",
-				Folder = "",
-				Function = "",
-				Interface = "",
-				Key = "",
-				Keyword = "",
-				Method = "",
-				Module = "",
-				Namespace = "",
-				Null = "",
-				Number = "",
-				Object = "",
-				Operator = "",
-				Package = "",
-				Property = "",
-				Reference = "",
-				Snippet = "",
-				String = "",
-				Struct = "",
-				Text = "",
-				TypeParameter = "",
-				Unit = "",
-				Value = "",
-				Variable = "",
-			},
-		},
-	},
+	-- {
+	-- 	"utilyre/barbecue.nvim",
+	-- 	name = "barbecue",
+	-- 	version = "*",
+	-- 	event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+	-- 	dependencies = {
+	-- 		"SmiteshP/nvim-navic",
+	-- 		"nvim-tree/nvim-web-devicons",
+	-- 	},
+	-- 	opts = {
+	-- 		kinds = {
+	-- 			Array = "",
+	-- 			Boolean = "",
+	-- 			Class = "",
+	-- 			Color = "",
+	-- 			Constant = "",
+	-- 			Constructor = "",
+	-- 			Enum = "",
+	-- 			EnumMember = "",
+	-- 			Event = "",
+	-- 			Field = "",
+	-- 			File = "󰈙",
+	-- 			Folder = "",
+	-- 			Function = "",
+	-- 			Interface = "",
+	-- 			Key = "",
+	-- 			Keyword = "",
+	-- 			Method = "",
+	-- 			Module = "",
+	-- 			Namespace = "",
+	-- 			Null = "",
+	-- 			Number = "",
+	-- 			Object = "",
+	-- 			Operator = "",
+	-- 			Package = "",
+	-- 			Property = "",
+	-- 			Reference = "",
+	-- 			Snippet = "",
+	-- 			String = "",
+	-- 			Struct = "",
+	-- 			Text = "",
+	-- 			TypeParameter = "",
+	-- 			Unit = "",
+	-- 			Value = "",
+	-- 			Variable = "",
+	-- 		},
+	-- 	},
+	-- },
 
 	--harpoon --
 	{

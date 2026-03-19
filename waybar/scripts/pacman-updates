@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+updates=$(checkupdates 2>/dev/null | wc -l)
+
+# Optional: include AUR updates (only if you use `yay` or `paru`)
+aur_updates=$(paru -Qua 2>/dev/null | wc -l)
+
+total=$((updates + aur_updates))
+
+if [[ $total -eq 0 ]]; then
+  echo '{"text": "󰏔", "tooltip": "System is up to date"}'
+else
+  echo "{\"text\": \"󰏔 $total\", \"tooltip\": \"$updates repo, $aur_updates AUR updates\"}"
+fi

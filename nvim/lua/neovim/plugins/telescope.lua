@@ -1,23 +1,23 @@
 local M = {
 	"nvim-telescope/telescope.nvim",
-    --  {
-    --     'nvim-telescope/telescope-fzf-native.nvim',
-    --     build = 'make',
-    -- },
-         dependencies = {
-		  "nvim-lua/plenary.nvim",
+	--  {
+	--     'nvim-telescope/telescope-fzf-native.nvim',
+	--     build = 'make',
+	-- },
+	dependencies = {
+		"nvim-lua/plenary.nvim",
 		{ "ThePrimeagen/git-worktree.nvim" },
 	},
 }
 
 function M.config()
-    require("telescope").setup({
-        pickers = {
-            colorscheme = {
-                enable_preview = true,
-            },
-        },
-    })
+	require("telescope").setup({
+		pickers = {
+			colorscheme = {
+				enable_preview = true,
+			},
+		},
+	})
 	local telescope = require("telescope")
 
 	local builtin = require("telescope.builtin")
@@ -66,14 +66,14 @@ function M.config()
 
 	vim.api.nvim_set_keymap(
 		"n",
-		"<Leader>sr",
+		"<leader>sr",
 		'<CMD>lua require("telescope").extensions.git_worktree.git_worktrees()<CR>',
 		{ noremap = true, silent = true }
 	)
 
 	vim.api.nvim_set_keymap(
 		"n",
-		"<Leader>sR",
+		"<leader>sR",
 		'<CMD>lua require("telescope").extensions.git_worktree.create_git_worktree()<CR>',
 		{ noremap = true, silent = true }
 	)
