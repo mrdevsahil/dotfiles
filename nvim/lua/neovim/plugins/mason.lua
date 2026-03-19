@@ -38,6 +38,7 @@ return {
 				"tailwindcss",
 				"yamlls",
 				"emmet_ls",
+				"intelephense",
 			},
 			automatic_installation = true,
 		})
@@ -53,6 +54,7 @@ return {
 				"shfmt",
 				-- "rustfmt",
 				"black",
+				"php-cs-fixer",
 			},
 		})
 	end,

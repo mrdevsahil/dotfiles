@@ -63,8 +63,6 @@ api("i", "<C-k>", "<Up>", { noremap = true })
 api("i", "<C-h>", "<Left>", { noremap = true })
 api("i", "<C-l>", "<Right>", { noremap = true })
 
---command mode--
-api("n", "'", ":", { noremap = true })
 vim.api.nvim_set_option("completefunc", "completefunc#omni#syntax")
 
 --move to start and end of line
@@ -111,12 +109,13 @@ set("i", "<C-c>", "<Esc>")
 
 set("n", "Q", "<nop>")
 
-api("n", "c", "V", { silent = true })
-
 set("n", "<C-[>", "<cmd>cnext<CR>zz")
 set("n", "<C-]>", "<cmd>cprev<CR>zz")
 -- set("n", "<leader>k", "<cmd>lnext<CR>zz")
 -- set("n", "<leader>j", "<cmd>lprev<CR>zz")
+
+-- Close all buffers except current
+set("n", "ca", "<cmd>%bd|e#|bd#<CR>", { noremap = true, silent = true, desc = "Close all other buffers" })
 
 -- copy to system clipboard
 vim.g.clipboard = {
