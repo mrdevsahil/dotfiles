@@ -81,7 +81,7 @@ function M.config()
 	vim.keymap.set("n", "<leader>vh", builtin.help_tags, {})
 	keymap.set("n", "<leader>fc", function()
 		require("telescope.builtin").find_files({
-			cwd = "/home/dinesh/.config/nvim/",
+			cwd = vim.fn.stdpath("config"),
 		})
 	end, { noremap = true, silent = true, desc = "Find config files" })
 end

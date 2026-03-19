@@ -30,6 +30,7 @@ return {
 				yaml = { "prettierd" },
 				zsh = { "beautysh" },
 				python = { "black", "isort" },
+				php = { "php-cs-fixer" },
 			},
 			formatters = {
 				injected = { options = { ignore_errors = true } },
