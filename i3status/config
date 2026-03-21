@@ -1,0 +1,53 @@
+general {
+    colors = true
+    interval = 5
+    color_good     = "#a6e3a1"
+    color_degraded = "#f9e2af"
+    color_bad      = "#f38ba8"
+}
+
+order += "volume master"
+order += "script brightness"
+order += "wireless _first_"
+order += "ethernet _first_"
+order += "memory"
+order += "cpu_usage"
+order += "tztime local"
+
+volume master {
+    format = "󰕾 %volume"
+    format_muted = "󰖁 muted"
+    device = "default"
+    mixer = "Master"
+}
+
+script brightness {
+    command = "echo \"󰃞 $(( $(cat /sys/class/backlight/intel_backlight/brightness) * 100 / $(cat /sys/class/backlight/intel_backlight/max_brightness) ))%\""
+    interval = 2
+}
+
+wireless _first_ {
+    format_up = "󰖩 %essid %quality"
+    format_down = "󰖪 disconnected"
+}
+
+ethernet _first_ {
+    format_up = "󰈀 %ip"
+    format_down = ""
+}
+
+memory {
+    format = "󰍛 %used/%total"
+    threshold_degraded = "1G"
+    threshold_critical = "200M"
+}
+
+cpu_usage {
+    format = "󰻠 %usage"
+    max_threshold = 75
+    degraded_threshold = 25
+}
+
+tztime local {
+    format = "󰃰 %d %b %H:%M"
+}

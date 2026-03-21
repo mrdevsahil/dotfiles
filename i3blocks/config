@@ -1,0 +1,29 @@
+[volume]
+command=echo "󰕾 $(pamixer --get-volume)%"
+interval=2
+color=#cdd6f4
+
+[brightness]
+command=echo "󰃞 $(( $(cat /sys/class/backlight/intel_backlight/brightness) * 100 / $(cat /sys/class/backlight/intel_backlight/max_brightness) ))%"
+interval=2
+color=#cdd6f4
+
+[wifi]
+command=iwgetid -r | awk '{print "󰖩 " $0}' || echo "󰖪 disconnected"
+interval=5
+color=#cdd6f4
+
+[memory]
+command=free -h | awk '/^Mem:/ {print "󰍛 " $3 "/" $2}'
+interval=5
+color=#cdd6f4
+
+[cpu]
+command=echo "󰻠 $(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {printf "%d%%", usage}')"
+interval=2
+color=#cdd6f4
+
+[time]
+command=date "+󰃰 %d %b %H:%M"
+color=#cdd6f4
+interval=5

@@ -123,7 +123,21 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+    position top
+    status_command i3blocks -c ~/.config/i3blocks/config
+    font pango:JetBrainsMono Nerd Font 10
+
+    colors {
+        background #1e1e2e
+        statusline #cdd6f4
+        separator  #45475a
+
+        focused_workspace   #89b4fa   #89b4fa     #1e1e2e
+        active_workspace    #313244   #313244     #cdd6f4
+        inactive_workspace  #1e1e2e   #1e1e2e     #6c7086
+        urgent_workspace    #f38ba8   #f38ba8     #1e1e2e
+        binding_mode        #a6e3a1   #a6e3a1     #1e1e2e
+    }
 }
 
 # i3lock
