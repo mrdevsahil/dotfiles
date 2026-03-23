@@ -6,33 +6,47 @@
 
 ## 📋 Table of Contents
 
-- [1. Base Arch Installation](#1-base-arch-installation)
-- [2. Essential System Packages](#2-essential-system-packages)
-- [3. AUR Helper — yay](#3-aur-helper--yay)
-- [4. Fonts](#4-fonts)
-- [5. Display Server & i3 Window Manager](#5-display-server--i3-window-manager)
-- [6. i3 Configuration](#6-i3-configuration)
-- [7. i3 Status Bar — i3blocks](#7-i3-status-bar--i3blocks)
-- [8. Alacritty Terminal](#8-alacritty-terminal)
-- [9. Tmux](#9-tmux)
-- [10. Notifications — Dunst](#10-notifications--dunst)
-- [11. Screen Lock](#11-screen-lock)
-- [12. Bluetooth](#12-bluetooth)
-- [13. Audio — PipeWire](#13-audio--pipewire)
-- [14. File Manager — Yazi](#14-file-manager--yazi)
-- [15. Neovim](#15-neovim)
-- [16. Neovim Plugins & Config](#16-neovim-plugins--config)
-- [17. LSP Servers & Formatters](#17-lsp-servers--formatters)
-- [18. Shell & CLI Tools](#18-shell--cli-tools)
-- [19. Dotfiles Setup with Symlinks](#19-dotfiles-setup-with-symlinks)
-- [20. System Maintenance](#20-system-maintenance)
-- [21. Keybindings Reference](#21-keybindings-reference)
-- [22. Troubleshooting](#22-troubleshooting)
-- [23. Full Package List](#23-full-package-list)
+- [1. Bootstrap setup install script](#1-bootstrap-setup-install-script)
+- [2. Base Arch Installation](#2-base-arch-installation)
+- [3. Essential System Packages](#3-essential-system-packages)
+- [4. AUR Helper — yay](#4-aur-helper--yay)
+- [5. Fonts](#5-fonts)
+- [6. Display Server & i3 Window Manager](#6-display-server--i3-window-manager)
+- [7. i3 Configuration](#7-i3-configuration)
+- [8. i3 Status Bar — i3blocks](#8-i3-status-bar--i3blocks)
+- [9. Alacritty Terminal](#9-alacritty-terminal)
+- [10. Tmux](#10-tmux)
+- [11. Notifications — Dunst](#11-notifications--dunst)
+- [12. Screen Lock](#12-screen-lock)
+- [13. Bluetooth](#13-bluetooth)
+- [14. Audio — PipeWire](#14-audio--pipewire)
+- [15. File Manager — Yazi](#15-file-manager--yazi)
+- [16. Neovim](#16-neovim)
+- [17. Neovim Plugins & Config](#17-neovim-plugins--config)
+- [18. LSP Servers & Formatters](#18-lsp-servers--formatters)
+- [19. Shell & CLI Tools](#19-shell--cli-tools)
+- [20. Dotfiles Setup with Symlinks](#20-dotfiles-setup-with-symlinks)
+- [21. System Maintenance](#21-system-maintenance)
+- [22. Keybindings Reference](#22-keybindings-reference)
+- [23. Troubleshooting](#23-troubleshooting)
+- [24. Full Package List](#24-full-package-list)
 
 ---
 
-## 1. Base Arch Installation
+## 1. Bootstrap setup install script
+
+```bash
+git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+chmod +x install.sh
+./install.sh
+```
+
+### NOTE: Follow the steps bellow only if the installation script fails to setup.
+
+---
+
+## 2. Base Arch Installation
 
 Follow the official [Arch Installation Guide](https://wiki.archlinux.org/title/Installation_guide) for the base install. After booting into the installed system, update everything:
 
@@ -42,7 +56,7 @@ sudo pacman -Syu
 
 ---
 
-## 2. Essential System Packages
+## 3. Essential System Packages
 
 ```bash
 sudo pacman -S \
@@ -75,7 +89,7 @@ sudo systemctl enable --now NetworkManager
 
 ---
 
-## 3. AUR Helper — yay
+## 4. AUR Helper — yay
 
 ```bash
 cd /tmp
@@ -86,7 +100,7 @@ makepkg -si
 
 ---
 
-## 4. Fonts
+## 5. Fonts
 
 Install before configuring anything visual so everything renders correctly:
 
@@ -104,7 +118,7 @@ fc-cache -fv
 
 ---
 
-## 5. Display Server & i3 Window Manager
+## 6. Display Server & i3 Window Manager
 
 ### Install X11 and i3
 
@@ -152,7 +166,7 @@ feh --bg-scale /path/to/wallpaper.jpg
 
 ---
 
-## 6. i3 Configuration
+## 7. i3 Configuration
 
 Location: `~/.config/i3/config`
 
@@ -349,7 +363,7 @@ chmod +x ~/.local/bin/brightness-notify
 
 ---
 
-## 7. i3 Status Bar — i3blocks
+## 8. i3 Status Bar — i3blocks
 
 ### Install
 
@@ -397,7 +411,7 @@ color=#cdd6f4
 
 ---
 
-## 8. Alacritty Terminal
+## 9. Alacritty Terminal
 
 ```bash
 sudo pacman -S alacritty
@@ -407,7 +421,7 @@ Config location: `~/.config/alacritty/alacritty.toml`
 
 ---
 
-## 9. Tmux
+## 10. Tmux
 
 ### Install
 
@@ -532,7 +546,7 @@ Tab + Ctrl+r    # Manual restore
 
 ---
 
-## 10. Notifications — Dunst
+## 11. Notifications — Dunst
 
 ### Install
 
@@ -616,7 +630,7 @@ notify-send -u critical "Alert" "Critical notification"
 
 ---
 
-## 11. Screen Lock
+## 12. Screen Lock
 
 ```bash
 sudo pacman -S i3lock xautolock
@@ -634,7 +648,7 @@ Color `1e1e2e` is a dark navy matching the Nord theme.
 
 ---
 
-## 12. Bluetooth
+## 13. Bluetooth
 
 ### Install
 
@@ -676,7 +690,7 @@ exec --no-startup-id blueman-applet
 
 ---
 
-## 13. Audio — PipeWire
+## 14. Audio — PipeWire
 
 ### Install
 
@@ -722,7 +736,7 @@ systemctl --user restart pipewire pipewire-pulse
 
 ---
 
-## 14. File Manager — Yazi
+## 15. File Manager — Yazi
 
 ### Install
 
@@ -741,7 +755,7 @@ image_protocol = "ueberzug"
 
 ---
 
-## 15. Neovim
+## 16. Neovim
 
 ### Install
 
@@ -820,7 +834,7 @@ require("lazy").setup({ { import = "neovim.plugins" } }, {
 
 ---
 
-## 16. Neovim Plugins & Config
+## 17. Neovim Plugins & Config
 
 ### Plugin List
 
@@ -1060,7 +1074,7 @@ Leader = Space
 
 ---
 
-## 17. LSP Servers & Formatters
+## 18. LSP Servers & Formatters
 
 ### LSP Servers (auto-installed via mason-lspconfig)
 
@@ -1097,7 +1111,7 @@ Leader = Space
 
 ---
 
-## 18. Shell & CLI Tools
+## 19. Shell & CLI Tools
 
 ```bash
 sudo pacman -S \
@@ -1112,7 +1126,7 @@ sudo pacman -S \
 
 ---
 
-## 19. Dotfiles Setup with Symlinks
+## 20. Dotfiles Setup with Symlinks
 
 Keep actual config files in `~/dotfiles/` and symlink from the expected locations. Edit in `~/dotfiles/`, changes reflect everywhere automatically.
 
@@ -1176,7 +1190,7 @@ ln -sf ~/dotfiles/.tmux ~/.tmux
 
 ---
 
-## 20. System Maintenance
+## 21. System Maintenance
 
 ### Clean Caches
 
@@ -1211,7 +1225,7 @@ df -h
 
 ---
 
-## 21. Keybindings Reference
+## 22. Keybindings Reference
 
 ### i3
 
@@ -1269,7 +1283,7 @@ df -h
 
 ---
 
-## 22. Troubleshooting
+## 23. Troubleshooting
 
 ### i3 doesn't start
 
@@ -1362,7 +1376,7 @@ fc-list | grep -i "JetBrains"
 
 ---
 
-## 23. Full Package List
+## 24. Full Package List
 
 All packages installed on this machine, in install order:
 
